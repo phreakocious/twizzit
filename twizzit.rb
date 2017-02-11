@@ -28,7 +28,8 @@ end
 # @param [Twitter::User] twitter_user
 def find_or_create_node(twitter_user)
   tweeter = Tweeter.find_by_id twitter_user.id
-  if tweeter printf "!" else
+  if tweeter printf "!"
+  else
     tweeter = Tweeter.new_from_twitter_user twitter_user
     tweeter.save
     printf "."
