@@ -65,7 +65,6 @@ end
 
 def do_following(screen_name)
   printf "@%s ", screen_name
-  twitter_user = twitter_client.user screen_name
   begin
     twitter_user = twitter_client.user screen_name
   rescue => error
@@ -75,9 +74,9 @@ def do_following(screen_name)
   end
   return unless @tweeter == nil || twitter_user.friends_count < MAX_FOLLOWING
   tweeter = find_or_create_node twitter_user
-  count_diff = twitter_user.friends_count - tweeter.following.count
+  count_diff = twitter_user.friends_count - tweeter.following.count          # TODO: Make absolute value after handling unfollows
 
-  return tweeter if count_diff < 3
+  return tweeter if count_diff < RESCAN_THRESHOLD
   printf " %d !~ %d ", tweeter.following.count, twitter_user.friends_count
   following = []
 
